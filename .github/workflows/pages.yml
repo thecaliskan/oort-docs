@@ -32,7 +32,7 @@ jobs:
       - name: Upload documentation artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: build
+          path: build/html
 
   deploy:
     needs: build
