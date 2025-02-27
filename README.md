@@ -1,2 +1,1 @@
-# oort-docs
-Oort Docs
+# OORT Docs

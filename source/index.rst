@@ -17,5 +17,8 @@ for PHP applications in modern, scalable environments.
     :caption: Contents:
 
     self
-    faq
+    multi-architecture-support
+    available-container-registries
+    security-policy
+    frequently-asked-questions
 
