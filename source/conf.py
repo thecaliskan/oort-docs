@@ -31,6 +31,9 @@ html_title = project
 html_permalinks_icon = '<span>#</span>'
 html_theme = 'sphinxawesome_theme'
 html_static_path = ['_static']
+html_css_files = [
+    'style.css',
+]
 
 html_theme_options = {
    # Add your theme options. For example:

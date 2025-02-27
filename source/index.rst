@@ -17,8 +17,9 @@ for PHP applications in modern, scalable environments.
     :caption: Contents:
 
     self
-    multi-architecture-support
-    available-container-registries
+    architecture-support
+    container-registries
+    tags
     security-policy
     frequently-asked-questions
 

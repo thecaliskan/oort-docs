@@ -1,4 +1,4 @@
-Available Container Registries
+Container Registries
 ====================================
 
 Our Docker image for **OORT** is available on multiple container registries. You can easily pull the image from any of the following registries depending on your preference.

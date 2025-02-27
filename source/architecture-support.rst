@@ -1,4 +1,4 @@
-Multi-Architecture Support
+Architecture Support
 ==========================
 
 Our Docker image provides support for multiple architectures, ensuring compatibility across a wide range of systems.
