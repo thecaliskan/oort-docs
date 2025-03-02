@@ -49,3 +49,5 @@ html_theme_options = {
 
 googleanalytics_id = 'G-83YQL0LJPB'
 googleanalytics_enabled = True
+
+html_baseurl = 'https://oort.thecaliskan.com/'
