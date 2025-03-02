@@ -17,6 +17,7 @@ release = '1.0.0'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
+    'sphinxcontrib.googleanalytics'
 ]
 
 templates_path = ['_templates']
@@ -44,3 +45,7 @@ html_theme_options = {
       "Docker Hub": "https://hub.docker.com/r/thecaliskan/oort",
    }
 }
+
+
+googleanalytics_id = 'G-83YQL0LJPB'
+googleanalytics_enabled = True
