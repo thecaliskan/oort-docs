@@ -17,7 +17,8 @@ release = '1.0.0'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    'sphinxcontrib.googleanalytics'
+    'sphinxcontrib.googleanalytics',
+    'sphinx_sitemap'
 ]
 
 templates_path = ['_templates']
@@ -51,3 +52,9 @@ googleanalytics_id = 'G-83YQL0LJPB'
 googleanalytics_enabled = True
 
 html_baseurl = 'https://oort.thecaliskan.com/'
+sitemap_url_scheme = "{link}"
+
+sitemap_excludes = [
+    "search.html",
+    "genindex.html",
+]
