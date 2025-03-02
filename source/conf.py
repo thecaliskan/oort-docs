@@ -58,3 +58,5 @@ sitemap_excludes = [
     "search.html",
     "genindex.html",
 ]
+
+html_extra_path = ['robots.txt']
