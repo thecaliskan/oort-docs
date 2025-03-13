@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Download Artifacts
-        run: gh run download 13834882010 --repo thecaliskan/oort --dir ./source/_data --pattern "sarif-*" --pattern "sbom-*"
+        run: gh run download $(gh run list --repo thecaliskan/oort --status success --limit 1 --json databaseId --jq '.[0].databaseId') --repo thecaliskan/oort --dir ./source/_data --pattern "sarif-*" --pattern "sbom-*"
         env:
           GITHUB_TOKEN: ${{ secrets.OORT_GITHUB_TOKEN }}
 
