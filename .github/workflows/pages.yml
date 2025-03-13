@@ -20,6 +20,8 @@ jobs:
 
       - name: Download Artifacts
         run: gh run download 13834882010 --repo thecaliskan/oort --dir ./source/_data --pattern "sarif-*" --pattern "sbom-*"
+        env:
+          GITHUB_TOKEN: ${{ secrets.OORT_GITHUB_TOKEN }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
