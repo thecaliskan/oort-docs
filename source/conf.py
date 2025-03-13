@@ -1,4 +1,6 @@
 import datetime
+import sys
+import os
 
 # Configuration file for the Sphinx documentation builder.
 #
@@ -15,10 +17,11 @@ release = '1.0.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
-
+sys.path.append(os.path.abspath('./_ext'))
 extensions = [
     'sphinxcontrib.googleanalytics',
-    'sphinx_sitemap'
+    'sphinx_sitemap',
+    "json_to_table"
 ]
 
 templates_path = ['_templates']

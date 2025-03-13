@@ -1,1 +1,5 @@
 #content .docutils img { margin-top: 0; }
+
+#packages table td:nth-child(1){ width: 25%; }
+#packages table td:nth-child(2){ width: 25%; }
+#packages table td:nth-child(3){ width: 30%; }

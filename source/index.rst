@@ -20,6 +20,7 @@ for PHP applications in modern, scalable environments.
     architecture-support
     container-registries
     tags
+    packages
     security-policy
     frequently-asked-questions
 
