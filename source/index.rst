@@ -21,6 +21,7 @@ for PHP applications in modern, scalable environments.
     container-registries
     tags
     packages
+    extensions
     security-policy
     frequently-asked-questions
 
