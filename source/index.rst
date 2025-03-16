@@ -22,6 +22,6 @@ for PHP applications in modern, scalable environments.
     tags
     packages
     extensions
-    security-policy
+    security
     frequently-asked-questions
 

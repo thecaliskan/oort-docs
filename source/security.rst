@@ -1,4 +1,4 @@
-Security Policy
+Security
 ===============
 
 Supported Versions
@@ -27,6 +27,49 @@ The following versions of **OORT** are actively supported for security updates:
    * - <= 8.0
      - ❌ No longer supported
      - End of Life
+
+Known Vulnerabilities
+--------------------------
+
+8.4
+^^^^^^^^^^^^^^^^^^
+
+.. json-table::
+   :file: source/_data/sarif-8.4/sarif.output.json
+   :path: runs.0.results
+   :headers: Vulnerability, Description
+   :columns: ruleId, message.text
+   :error_message: No known vulnerabilities found.
+
+8.3
+^^^^^^^^^^^^^^^^^^
+
+.. json-table::
+   :file: source/_data/sarif-8.3/sarif.output.json
+   :path: runs.0.results
+   :headers: Vulnerability, Description
+   :columns: ruleId, message.text
+   :error_message: No known vulnerabilities found.
+
+8.2
+^^^^^^^^^^^^^^^^^^
+
+.. json-table::
+   :file: source/_data/sarif-8.2/sarif.output.json
+   :path: runs.0.results
+   :headers: Vulnerability, Description
+   :columns: ruleId, message.text
+   :error_message: No known vulnerabilities found.
+
+8.1
+^^^^^^^^^^^^^^^^^^
+
+.. json-table::
+   :file: source/_data/sarif-8.1/sarif.output.json
+   :path: runs.0.results
+   :headers: Vulnerability, Description
+   :columns: ruleId, message.text
+   :error_message: No known vulnerabilities found.
 
 Reporting a Vulnerability
 --------------------------

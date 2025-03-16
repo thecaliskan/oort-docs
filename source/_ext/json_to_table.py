@@ -10,16 +10,30 @@ class JSONTable(Directive):
         "path": directives.unchanged,
         "headers": directives.unchanged,
         "columns": directives.unchanged,
+        "error_message": directives.unchanged,
     }
 
     def get_nested_value(self, data, path):
         keys = path.split(".")
         for key in keys:
+            if data is None:
+                return None
             if isinstance(data, dict):
-                data = data.get(key, {})
+                data = data.get(key)
+            elif isinstance(data, list):
+                try:
+                    index = int(key)
+                    data = data[index] if 0 <= index < len(data) else None
+                except ValueError:
+                    return None
             else:
-                return []
-        return data if isinstance(data, list) else []
+                return None
+        return data
+
+    def format_multiline_text(self, text):
+        if not text:
+            return ""
+        return text.replace("\n", "<br>")
 
     def run(self):
         try:
@@ -28,14 +42,16 @@ class JSONTable(Directive):
             json_file = self.options.get("file", "").strip()
             if json_file:
                 if not os.path.isfile(json_file):
-                    return [nodes.paragraph(text=f"Error: File not found: {json_file}")]
+                    error_message = self.options.get("error_message", f"Error: File not found: {json_file}")
+                    return [nodes.paragraph(text=error_message)]
                 with open(json_file, "r", encoding="utf-8") as f:
                     json_data = f.read().strip()
             else:
                 json_data = "\n".join(self.content).strip()
 
             if not json_data:
-                return [nodes.paragraph(text="No JSON data provided.")]
+                error_message = self.options.get("error_message", "No JSON data provided.")
+                return [nodes.paragraph(text=error_message)]
 
             data = json.loads(json_data)
             json_path = self.options.get("path", "").strip()
@@ -44,14 +60,13 @@ class JSONTable(Directive):
                 data = self.get_nested_value(data, json_path)
 
             if not isinstance(data, list) or not data:
-                return [nodes.paragraph(text="No valid data available at the given path.")]
-
-            available_fields = list(data[0].keys())
+                error_message = self.options.get("error_message", "No valid data available at the given path.")
+                return [nodes.paragraph(text=error_message)]
 
             selected_columns = self.options.get("columns", "").split(",")
             selected_columns = [col.strip() for col in selected_columns if col.strip()]
             if not selected_columns:
-                selected_columns = available_fields
+                selected_columns = list(data[0].keys())
 
             custom_headers = self.options.get("headers", "").split(",")
             custom_headers = [h.strip() for h in custom_headers if h.strip()]
@@ -80,16 +95,22 @@ class JSONTable(Directive):
             for item in data:
                 row = nodes.row()
                 for field in selected_columns:
-                    value = str(item.get(field, "N/A")).strip()
+                    if "." in field:
+                        value = self.get_nested_value(item, field)
+                    else:
+                        value = item.get(field, "N/A")
+                    value = str(value).strip() if value is not None else "N/A"
+                    value = self.format_multiline_text(value)
                     entry = nodes.entry()
-                    entry += nodes.paragraph("", nodes.Text(value))
+                    entry += nodes.raw("", value, format="html")
                     row += entry
                 tbody += row
 
             return [table]
 
         except Exception as e:
-            return [nodes.paragraph(text=f"Error processing JSON: {str(e)}")]
+            error_message = self.options.get("error_message", f"Error processing JSON: {str(e)}")
+            return [nodes.paragraph(text=error_message)]
 
 def setup(app):
     app.add_directive("json-table", JSONTable)
