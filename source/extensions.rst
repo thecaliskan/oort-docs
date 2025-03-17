@@ -17,7 +17,7 @@ You can use this as a reference to understand the image’s capabilities and man
 ---------------------------
 
 .. json-table::
-   :file: source/_data/php-extensions-8.1/php-extensions-8.1.json
+   :file: source/_data/php-extensions-8.3/php-extensions-8.3.json
    :headers: Name, Version
    :columns: name, version
 
