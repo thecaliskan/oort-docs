@@ -21,7 +21,8 @@ sys.path.append(os.path.abspath('./_ext'))
 extensions = [
     'sphinxcontrib.googleanalytics',
     'sphinx_sitemap',
-    "json_to_table"
+    "json_to_table",
+    'sphinx_design'
 ]
 
 templates_path = ['_templates']
@@ -63,3 +64,5 @@ sitemap_excludes = [
 ]
 
 html_extra_path = ['robots.txt']
+
+pygments_style = "sphinx"

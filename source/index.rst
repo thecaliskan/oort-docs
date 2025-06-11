@@ -22,6 +22,7 @@ for PHP applications in modern, scalable environments.
     tags
     packages
     extensions
+    usage
     security
     frequently-asked-questions
 

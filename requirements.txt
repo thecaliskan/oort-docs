@@ -2,3 +2,4 @@ sphinx
 sphinxawesome-theme
 sphinxcontrib.googleanalytics
 sphinx-sitemap
+sphinx_design
