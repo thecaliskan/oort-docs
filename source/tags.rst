@@ -42,26 +42,32 @@ Supported Tags
 
    * - Tag
      - PHP Version
+     - Alpine Version
      - Image Size
      - From
    * - **latest**
      - 8.4
+     - 3.22
      - |image-size-latest|
      - |image-tag-latest|
    * - **8.4**
      - 8.4
+     - 3.22
      - |image-size-8.4|
      - |image-tag-8.4|
    * - **8.3**
      - 8.3
+     - 3.22
      - |image-size-8.3|
      - |image-tag-8.3|
    * - **8.2**
      - 8.2
+     - 3.22
      - |image-size-8.2|
      - |image-tag-8.2|
    * - **8.1**
      - 8.1
+     - 3.21
      - |image-size-8.1|
      - |image-tag-8.1|
 
