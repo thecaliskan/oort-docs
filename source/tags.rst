@@ -12,6 +12,9 @@ Supported Tags
 .. |image-size-8.4| image:: https://img.shields.io/docker/image-size/thecaliskan/oort/8.4?label=
    :target: https://hub.docker.com/r/thecaliskan/oort/tags?page=1&name=8.4
    :alt: Docker Image Size 8.4
+.. |image-size-8.5-rc| image:: https://img.shields.io/docker/image-size/thecaliskan/oort/8.5-rc?label=
+   :target: https://hub.docker.com/r/thecaliskan/oort/tags?page=1&name=8.5-rc
+   :alt: Docker Image Size 8.5-rc
 .. |image-size-8.3| image:: https://img.shields.io/docker/image-size/thecaliskan/oort/8.3?label=
    :target: https://hub.docker.com/r/thecaliskan/oort/tags?page=1&name=8.3
    :alt: Docker Image Size 8.3
@@ -27,6 +30,9 @@ Supported Tags
 .. |image-tag-8.4| image:: https://img.shields.io/docker/v/thecaliskan/oort/8.4?label=thecaliskan%2Foort
    :target: https://hub.docker.com/r/thecaliskan/oort/tags?page=1&name=8.4
    :alt: Docker Version Tag 8.4
+.. |image-tag-8.5-rc| image:: https://img.shields.io/docker/v/thecaliskan/oort/8.5-rc?label=thecaliskan%2Foort
+   :target: https://hub.docker.com/r/thecaliskan/oort/tags?page=1&name=8.5-rc
+   :alt: Docker Version Tag 8.5-rc
 .. |image-tag-8.3| image:: https://img.shields.io/docker/v/thecaliskan/oort/8.3?label=thecaliskan%2Foort
    :target: https://hub.docker.com/r/thecaliskan/oort/tags?page=1&name=8.3
    :alt: Docker Version Tag 8.3
@@ -50,6 +56,11 @@ Supported Tags
      - 3.22
      - |image-size-latest|
      - |image-tag-latest|
+   * - **8.5-rc**
+     - 8.5-rc
+     - 3.22
+     - |image-size-8.5-rc|
+     - |image-tag-8.5-rc|
    * - **8.4**
      - 8.4
      - 3.22
@@ -67,7 +78,7 @@ Supported Tags
      - |image-tag-8.2|
    * - **8.1**
      - 8.1
-     - 3.21
+     - 3.22
      - |image-size-8.1|
      - |image-tag-8.1|
 
