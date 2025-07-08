@@ -14,7 +14,7 @@ The following versions of **OORT** are actively supported for security updates:
      - Security Support Until
    * - 8.5-rc
      - ❌ Not yet supported
-     - 31 Dec 2028
+     - 31 Dec 2029
    * - 8.4
      - ✅ Actively Supported
      - 31 Dec 2028
