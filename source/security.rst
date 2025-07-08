@@ -12,6 +12,9 @@ The following versions of **OORT** are actively supported for security updates:
    * - Version
      - Supported
      - Security Support Until
+   * - 8.5-rc
+     - ❌ Not yet supported
+     - 31 Dec 2028
    * - 8.4
      - ✅ Actively Supported
      - 31 Dec 2028
@@ -30,6 +33,16 @@ The following versions of **OORT** are actively supported for security updates:
 
 Known Vulnerabilities
 --------------------------
+
+8.5-rc
+^^^^^^^^^^^^^^^^^^
+
+.. json-table::
+   :file: source/_data/sarif-8.5/sarif.output.json
+   :path: runs.0.results
+   :headers: Vulnerability, Description
+   :columns: ruleId, message.text
+   :error_message: No known vulnerabilities found.
 
 8.4
 ^^^^^^^^^^^^^^^^^^
