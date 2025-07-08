@@ -5,6 +5,14 @@ This page provides a detailed list of all PHP extensions included in our Docker 
 You can use this as a reference to understand the image’s capabilities and manage dependencies effectively.
 
 
+8.5-rc
+---------------------------
+
+.. json-table::
+   :file: source/_data/php-extensions-8.5-rc/php-extensions-8.5-rc.json
+   :headers: Name, Version
+   :columns: name, version
+
 8.4
 ---------------------------
 
