@@ -22,7 +22,7 @@ extensions = [
     'sphinxcontrib.googleanalytics',
     'sphinx_sitemap',
     "json_to_table",
-    'sphinx_design'
+    'sphinx_design',
 ]
 
 templates_path = ['_templates']
@@ -63,6 +63,42 @@ sitemap_excludes = [
     "genindex.html",
 ]
 
+
 html_extra_path = ['robots.txt']
 
 pygments_style = "sphinx"
+
+html_context = {
+    'latest_version': "8.5",
+    'alpine_version': "3.22",
+    'no_longer_supported_version': "8.0",
+    'supported_versions': [
+        "8.5",
+        "8.4",
+        "8.3",
+        "8.2",
+        "8.1",
+    ],
+    'supported_architectures': [
+        "linux/amd64",
+        "linux/arm64",
+        "linux/ppc64le",
+        "linux/s390x",
+    ],
+    'version_security_supports': {
+        "8.5": "31 Dec 2029",
+        "8.4": "31 Dec 2028",
+        "8.3": "31 Dec 2027",
+        "8.2": "31 Dec 2026",
+        "8.1": "31 Dec 2025"
+    },
+}
+
+def rstjinja(app, docname, source):
+    if app.builder.format != "html":
+        return
+    rendered = app.builder.templates.environment.from_string(source[0]).render(app.config.html_context)
+    source[0] = rendered
+
+def setup(app):
+    app.connect("source-read", rstjinja)

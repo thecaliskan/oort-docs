@@ -6,42 +6,14 @@ The **OORT** Docker image is available with several version tags to meet your sp
 Supported Tags
 --------------
 
-.. |image-size-latest| image:: https://img.shields.io/docker/image-size/thecaliskan/oort/latest?label=
-   :target: https://hub.docker.com/r/thecaliskan/oort/tags?page=1&name=latest
-   :alt: Docker Image Size Latest
-.. |image-size-8.4| image:: https://img.shields.io/docker/image-size/thecaliskan/oort/8.4?label=
-   :target: https://hub.docker.com/r/thecaliskan/oort/tags?page=1&name=8.4
-   :alt: Docker Image Size 8.4
-.. |image-size-8.5-rc| image:: https://img.shields.io/docker/image-size/thecaliskan/oort/8.5-rc?label=
-   :target: https://hub.docker.com/r/thecaliskan/oort/tags?page=1&name=8.5-rc
-   :alt: Docker Image Size 8.5-rc
-.. |image-size-8.3| image:: https://img.shields.io/docker/image-size/thecaliskan/oort/8.3?label=
-   :target: https://hub.docker.com/r/thecaliskan/oort/tags?page=1&name=8.3
-   :alt: Docker Image Size 8.3
-.. |image-size-8.2| image:: https://img.shields.io/docker/image-size/thecaliskan/oort/8.2?label=
-   :target: https://hub.docker.com/r/thecaliskan/oort/tags?page=1&name=8.2
-   :alt: Docker Image Size 8.2
-.. |image-size-8.1| image:: https://img.shields.io/docker/image-size/thecaliskan/oort/8.1?label=
-   :target: https://hub.docker.com/r/thecaliskan/oort/tags?page=1&name=8.1
-   :alt: Docker Image Size 8.1
-.. |image-tag-latest| image:: https://img.shields.io/docker/v/thecaliskan/oort/latest?label=thecaliskan%2Foort
-   :target: https://hub.docker.com/r/thecaliskan/oort/tags?page=1&name=latest
-   :alt: Docker Version Tag Latest
-.. |image-tag-8.4| image:: https://img.shields.io/docker/v/thecaliskan/oort/8.4?label=thecaliskan%2Foort
-   :target: https://hub.docker.com/r/thecaliskan/oort/tags?page=1&name=8.4
-   :alt: Docker Version Tag 8.4
-.. |image-tag-8.5-rc| image:: https://img.shields.io/docker/v/thecaliskan/oort/8.5-rc?label=thecaliskan%2Foort
-   :target: https://hub.docker.com/r/thecaliskan/oort/tags?page=1&name=8.5-rc
-   :alt: Docker Version Tag 8.5-rc
-.. |image-tag-8.3| image:: https://img.shields.io/docker/v/thecaliskan/oort/8.3?label=thecaliskan%2Foort
-   :target: https://hub.docker.com/r/thecaliskan/oort/tags?page=1&name=8.3
-   :alt: Docker Version Tag 8.3
-.. |image-tag-8.2| image:: https://img.shields.io/docker/v/thecaliskan/oort/8.2?label=thecaliskan%2Foort
-   :target: https://hub.docker.com/r/thecaliskan/oort/tags?page=1&name=8.2
-   :alt: Docker Version Tag 8.2
-.. |image-tag-8.1| image:: https://img.shields.io/docker/v/thecaliskan/oort/8.1?label=thecaliskan%2Foort
-   :target: https://hub.docker.com/r/thecaliskan/oort/tags?page=1&name=8.1
-   :alt: Docker Version Tag 8.1
+{% for supported_version in supported_versions %}
+.. |image-size-{{ supported_version }}| image:: https://img.shields.io/docker/image-size/thecaliskan/oort/{{ supported_version }}?label=
+   :target: https://hub.docker.com/r/thecaliskan/oort/tags?page=1&name={{ supported_version }}
+   :alt: Docker Image Size {{ supported_version }}
+.. |image-tag-{{ supported_version }}| image:: https://img.shields.io/docker/v/thecaliskan/oort/{{ supported_version }}?label=thecaliskan%2Foort
+   :target: https://hub.docker.com/r/thecaliskan/oort/tags?page=1&name={{ supported_version }}
+   :alt: Docker Version Tag {{ supported_version }}
+{% endfor %}
 
 .. list-table::
    :header-rows: 1
@@ -52,35 +24,17 @@ Supported Tags
      - Image Size
      - From
    * - **latest**
-     - 8.4
-     - 3.22
-     - |image-size-latest|
-     - |image-tag-latest|
-   * - **8.5-rc**
-     - 8.5-rc
-     - 3.22
-     - |image-size-8.5-rc|
-     - |image-tag-8.5-rc|
-   * - **8.4**
-     - 8.4
-     - 3.22
-     - |image-size-8.4|
-     - |image-tag-8.4|
-   * - **8.3**
-     - 8.3
-     - 3.22
-     - |image-size-8.3|
-     - |image-tag-8.3|
-   * - **8.2**
-     - 8.2
-     - 3.22
-     - |image-size-8.2|
-     - |image-tag-8.2|
-   * - **8.1**
-     - 8.1
-     - 3.22
-     - |image-size-8.1|
-     - |image-tag-8.1|
+     - {{ latest_version }}
+     - {{ alpine_version }}
+     - |image-size-{{ latest_version }}|
+     - |image-tag-{{ latest_version }}|
+{% for supported_version in supported_versions %}
+   * - **{{ supported_version }}**
+     - {{ supported_version }}
+     - {{ alpine_version }}
+     - |image-size-{{ supported_version }}|
+     - |image-tag-{{ supported_version }}|
+{% endfor %}
 
 
 Automatic Image Updates

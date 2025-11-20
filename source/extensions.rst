@@ -9,46 +9,17 @@ latest
 ---------------------------
 
 .. json-table::
-   :file: source/_data/php-extensions-8.4/php-extensions-8.4.json
+   :file: source/_data/php-extensions-{{ latest_version }}/php-extensions-{{ latest_version }}.json
    :headers: Name, Version
    :columns: name, version
 
-8.5-rc
+{% for supported_version in supported_versions %}
+{{ supported_version }}
 ---------------------------
 
 .. json-table::
-   :file: source/_data/php-extensions-8.5-rc/php-extensions-8.5-rc.json
+   :file: source/_data/php-extensions-{{ supported_version }}/php-extensions-{{ supported_version }}.json
    :headers: Name, Version
    :columns: name, version
 
-8.4
----------------------------
-
-.. json-table::
-   :file: source/_data/php-extensions-8.4/php-extensions-8.4.json
-   :headers: Name, Version
-   :columns: name, version
-
-8.3
----------------------------
-
-.. json-table::
-   :file: source/_data/php-extensions-8.3/php-extensions-8.3.json
-   :headers: Name, Version
-   :columns: name, version
-
-8.2
----------------------------
-
-.. json-table::
-   :file: source/_data/php-extensions-8.2/php-extensions-8.2.json
-   :headers: Name, Version
-   :columns: name, version
-
-8.1
----------------------------
-
-.. json-table::
-   :file: source/_data/php-extensions-8.1/php-extensions-8.1.json
-   :headers: Name, Version
-   :columns: name, version
+{% endfor %}

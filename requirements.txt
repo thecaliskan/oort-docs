@@ -3,3 +3,4 @@ sphinxawesome-theme
 sphinxcontrib.googleanalytics
 sphinx-sitemap
 sphinx_design
+Jinja2

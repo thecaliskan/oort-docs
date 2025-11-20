@@ -12,77 +12,31 @@ The following versions of **OORT** are actively supported for security updates:
    * - Version
      - Supported
      - Security Support Until
-   * - 8.5-rc
-     - ❌ Not yet supported
-     - 31 Dec 2029
-   * - 8.4
+{% for version, support in version_security_supports.items() %}
+   * - {{ version }}
      - ✅ Actively Supported
-     - 31 Dec 2028
-   * - 8.3
-     - ✅ Actively Supported
-     - 31 Dec 2027
-   * - 8.2
-     - ✅ Actively Supported
-     - 31 Dec 2026
-   * - 8.1
-     - ✅ Actively Supported
-     - 31 Dec 2025
-   * - <= 8.0
+     - {{ support }}
+{% endfor %}
+   * - <= {{ no_longer_supported_version }}
      - ❌ No longer supported
      - End of Life
 
 Known Vulnerabilities
 --------------------------
 
-8.5-rc
+
+{% for supported_version in supported_versions %}
+{{ supported_version }}
 ^^^^^^^^^^^^^^^^^^
 
 .. json-table::
-   :file: source/_data/sarif-8.5/sarif.output.json
+   :file: source/_data/sarif-{{ supported_version }}/sarif.output.json
    :path: runs.0.results
    :headers: Vulnerability, Description
    :columns: ruleId, message.text
    :error_message: No known vulnerabilities found.
 
-8.4
-^^^^^^^^^^^^^^^^^^
-
-.. json-table::
-   :file: source/_data/sarif-8.4/sarif.output.json
-   :path: runs.0.results
-   :headers: Vulnerability, Description
-   :columns: ruleId, message.text
-   :error_message: No known vulnerabilities found.
-
-8.3
-^^^^^^^^^^^^^^^^^^
-
-.. json-table::
-   :file: source/_data/sarif-8.3/sarif.output.json
-   :path: runs.0.results
-   :headers: Vulnerability, Description
-   :columns: ruleId, message.text
-   :error_message: No known vulnerabilities found.
-
-8.2
-^^^^^^^^^^^^^^^^^^
-
-.. json-table::
-   :file: source/_data/sarif-8.2/sarif.output.json
-   :path: runs.0.results
-   :headers: Vulnerability, Description
-   :columns: ruleId, message.text
-   :error_message: No known vulnerabilities found.
-
-8.1
-^^^^^^^^^^^^^^^^^^
-
-.. json-table::
-   :file: source/_data/sarif-8.1/sarif.output.json
-   :path: runs.0.results
-   :headers: Vulnerability, Description
-   :columns: ruleId, message.text
-   :error_message: No known vulnerabilities found.
+{% endfor %}
 
 Reporting a Vulnerability
 --------------------------

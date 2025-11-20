@@ -7,233 +7,37 @@ This page provides a detailed list of all packages included in our Docker image.
 latest
 ---------------------------
 
-linux/amd64
+
+
+{% for supported_architecture in supported_architectures %}
+
+{{ supported_architecture }}
 ^^^^^^^^^^^^^^^^^^
 
 .. json-table::
-   :file: source/_data/sbom-8.4/linux_amd64/sbom.spdx.json
+   :file: source/_data/sbom-{{ latest_version }}/{{ supported_architecture.replace('/', '_') }}/sbom.spdx.json
    :path: predicate.packages
    :headers: Name, Version, License
    :columns: name, versionInfo, licenseDeclared
 
-linux/arm64
-^^^^^^^^^^^^^^^^^^
 
-.. json-table::
-   :file: source/_data/sbom-8.4/linux_arm64/sbom.spdx.json
-   :path: predicate.packages
-   :headers: Name, Version, License
-   :columns: name, versionInfo, licenseDeclared
+{% endfor %}
 
-linux/ppc64le
-^^^^^^^^^^^^^^^^^^
 
-.. json-table::
-   :file: source/_data/sbom-8.4/linux_ppc64le/sbom.spdx.json
-   :path: predicate.packages
-   :headers: Name, Version, License
-   :columns: name, versionInfo, licenseDeclared
-
-linux/s390x
-^^^^^^^^^^^^^^^^^^
-
-.. json-table::
-   :file: source/_data/sbom-8.4/linux_s390x/sbom.spdx.json
-   :path: predicate.packages
-   :headers: Name, Version, License
-   :columns: name, versionInfo, licenseDeclared
-
-8.5-rc
+{% for supported_version in supported_versions %}
+{{ supported_version }}
 ---------------------------
+{% for supported_architecture in supported_architectures %}
 
-linux/amd64
+{{ supported_architecture }}
 ^^^^^^^^^^^^^^^^^^
 
 .. json-table::
-   :file: source/_data/sbom-8.5-rc/linux_amd64/sbom.spdx.json
+   :file: source/_data/sbom-{{ supported_version }}/{{ supported_architecture.replace('/', '_') }}/sbom.spdx.json
    :path: predicate.packages
    :headers: Name, Version, License
    :columns: name, versionInfo, licenseDeclared
 
-linux/arm64
-^^^^^^^^^^^^^^^^^^
 
-.. json-table::
-   :file: source/_data/sbom-8.5-rc/linux_arm64/sbom.spdx.json
-   :path: predicate.packages
-   :headers: Name, Version, License
-   :columns: name, versionInfo, licenseDeclared
-
-linux/ppc64le
-^^^^^^^^^^^^^^^^^^
-
-.. json-table::
-   :file: source/_data/sbom-8.5-rc/linux_ppc64le/sbom.spdx.json
-   :path: predicate.packages
-   :headers: Name, Version, License
-   :columns: name, versionInfo, licenseDeclared
-
-linux/s390x
-^^^^^^^^^^^^^^^^^^
-
-.. json-table::
-   :file: source/_data/sbom-8.5-rc/linux_s390x/sbom.spdx.json
-   :path: predicate.packages
-   :headers: Name, Version, License
-   :columns: name, versionInfo, licenseDeclared
-
-8.4
----------------------------
-
-linux/amd64
-^^^^^^^^^^^^^^^^^^
-
-.. json-table::
-   :file: source/_data/sbom-8.4/linux_amd64/sbom.spdx.json
-   :path: predicate.packages
-   :headers: Name, Version, License
-   :columns: name, versionInfo, licenseDeclared
-
-linux/arm64
-^^^^^^^^^^^^^^^^^^
-
-.. json-table::
-   :file: source/_data/sbom-8.4/linux_arm64/sbom.spdx.json
-   :path: predicate.packages
-   :headers: Name, Version, License
-   :columns: name, versionInfo, licenseDeclared
-
-linux/ppc64le
-^^^^^^^^^^^^^^^^^^
-
-.. json-table::
-   :file: source/_data/sbom-8.4/linux_ppc64le/sbom.spdx.json
-   :path: predicate.packages
-   :headers: Name, Version, License
-   :columns: name, versionInfo, licenseDeclared
-
-linux/s390x
-^^^^^^^^^^^^^^^^^^
-
-.. json-table::
-   :file: source/_data/sbom-8.4/linux_s390x/sbom.spdx.json
-   :path: predicate.packages
-   :headers: Name, Version, License
-   :columns: name, versionInfo, licenseDeclared
-
-8.3
----------------------------
-
-linux/amd64
-^^^^^^^^^^^^^^^^^^
-
-.. json-table::
-   :file: source/_data/sbom-8.3/linux_amd64/sbom.spdx.json
-   :path: predicate.packages
-   :headers: Name, Version, License
-   :columns: name, versionInfo, licenseDeclared
-
-linux/arm64
-^^^^^^^^^^^^^^^^^^
-
-.. json-table::
-   :file: source/_data/sbom-8.3/linux_arm64/sbom.spdx.json
-   :path: predicate.packages
-   :headers: Name, Version, License
-   :columns: name, versionInfo, licenseDeclared
-
-linux/ppc64le
-^^^^^^^^^^^^^^^^^^
-
-.. json-table::
-   :file: source/_data/sbom-8.3/linux_ppc64le/sbom.spdx.json
-   :path: predicate.packages
-   :headers: Name, Version, License
-   :columns: name, versionInfo, licenseDeclared
-
-linux/s390x
-^^^^^^^^^^^^^^^^^^
-
-.. json-table::
-   :file: source/_data/sbom-8.3/linux_s390x/sbom.spdx.json
-   :path: predicate.packages
-   :headers: Name, Version, License
-   :columns: name, versionInfo, licenseDeclared
-
-8.2
----------------------------
-
-linux/amd64
-^^^^^^^^^^^^^^^^^^
-
-.. json-table::
-   :file: source/_data/sbom-8.2/linux_amd64/sbom.spdx.json
-   :path: predicate.packages
-   :headers: Name, Version, License
-   :columns: name, versionInfo, licenseDeclared
-
-linux/arm64
-^^^^^^^^^^^^^^^^^^
-
-.. json-table::
-   :file: source/_data/sbom-8.2/linux_arm64/sbom.spdx.json
-   :path: predicate.packages
-   :headers: Name, Version, License
-   :columns: name, versionInfo, licenseDeclared
-
-linux/ppc64le
-^^^^^^^^^^^^^^^^^^
-
-.. json-table::
-   :file: source/_data/sbom-8.2/linux_ppc64le/sbom.spdx.json
-   :path: predicate.packages
-   :headers: Name, Version, License
-   :columns: name, versionInfo, licenseDeclared
-
-linux/s390x
-^^^^^^^^^^^^^^^^^^
-
-.. json-table::
-   :file: source/_data/sbom-8.2/linux_s390x/sbom.spdx.json
-   :path: predicate.packages
-   :headers: Name, Version, License
-   :columns: name, versionInfo, licenseDeclared
-
-8.1
----------------------------
-
-linux/amd64
-^^^^^^^^^^^^^^^^^^
-
-.. json-table::
-   :file: source/_data/sbom-8.1/linux_amd64/sbom.spdx.json
-   :path: predicate.packages
-   :headers: Name, Version, License
-   :columns: name, versionInfo, licenseDeclared
-
-linux/arm64
-^^^^^^^^^^^^^^^^^^
-
-.. json-table::
-   :file: source/_data/sbom-8.1/linux_arm64/sbom.spdx.json
-   :path: predicate.packages
-   :headers: Name, Version, License
-   :columns: name, versionInfo, licenseDeclared
-
-linux/ppc64le
-^^^^^^^^^^^^^^^^^^
-
-.. json-table::
-   :file: source/_data/sbom-8.1/linux_ppc64le/sbom.spdx.json
-   :path: predicate.packages
-   :headers: Name, Version, License
-   :columns: name, versionInfo, licenseDeclared
-
-linux/s390x
-^^^^^^^^^^^^^^^^^^
-
-.. json-table::
-   :file: source/_data/sbom-8.1/linux_s390x/sbom.spdx.json
-   :path: predicate.packages
-   :headers: Name, Version, License
-   :columns: name, versionInfo, licenseDeclared
+{% endfor %}
+{% endfor %}
