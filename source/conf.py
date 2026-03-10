@@ -71,13 +71,12 @@ pygments_style = "sphinx"
 html_context = {
     'latest_version': "8.5",
     'alpine_version': "3.22",
-    'no_longer_supported_version': "8.0",
+    'no_longer_supported_version': "8.1",
     'supported_versions': [
         "8.5",
         "8.4",
         "8.3",
         "8.2",
-        "8.1",
     ],
     'supported_architectures': [
         "linux/amd64",
@@ -90,7 +89,6 @@ html_context = {
         "8.4": "31 Dec 2028",
         "8.3": "31 Dec 2027",
         "8.2": "31 Dec 2026",
-        "8.1": "31 Dec 2025"
     },
 }
 
