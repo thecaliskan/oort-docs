@@ -86,7 +86,7 @@ html_context = {
         "linux/s390x",
     ],
     'version_security_supports': {
-        "8.6": "31 Dec 2030",
+        "8.6-rc": "31 Dec 2030",
         "8.5": "31 Dec 2029",
         "8.4": "31 Dec 2028",
         "8.3": "31 Dec 2027",
