@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Download Artifacts
         run: gh run download $(gh run list --repo thecaliskan/oort --status success --limit 1 --json databaseId --jq '.[0].databaseId') --repo thecaliskan/oort --dir ./source/_data --pattern "sarif-*" --pattern "sbom-*" --pattern "php-extensions-*"
@@ -24,7 +24,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.OORT_GITHUB_TOKEN }}
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: '3.x'
           cache: 'pip'
@@ -36,7 +36,7 @@ jobs:
         run: make html
 
       - name: Upload documentation artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: build/html
 
@@ -49,4 +49,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
