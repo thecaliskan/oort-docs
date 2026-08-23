@@ -95,7 +95,7 @@ Each guide includes zero-to-production setup for every supported service, with d
       :link: symfony
       :link-type: doc
 
-      Runtime, Messenger, Scheduler, Mercure, and a full stack example.
+      Runtime, Messenger, Scheduler, and a full stack example.
 
 
 .. toctree::

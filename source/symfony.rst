@@ -12,11 +12,11 @@ Prerequisites
 Before deploying, ensure your Symfony project has:
 
 - PHP **{{ latest_version }}** compatibility (or your chosen OORT tag)
-- **Redis** for Messenger transport and Mercure scaling
+- **Redis** for Messenger transport and cache
 - A **database** for application data
 - Environment variables configured (``APP_ENV``, ``DATABASE_URL``, ``REDIS_URL``, etc.)
 
-Install Redis, Mercure hub, and database as separate containers or managed services.
+Install Redis and database as separate containers or managed services.
 
 
 Symfony Runtime
@@ -458,283 +458,11 @@ Deployment
                          name: symfony-env
 
 
-Symfony Mercure
----------------
-
-**What it does**
-
-Mercure enables real-time updates via the Mercure protocol (Server-Sent Events). The Symfony Mercure bundle publishes updates from your application; the Mercure **hub** distributes them to subscribers.
-
-**When to use it**
-
-Use Mercure for live dashboards, notifications, and collaborative features. Run the hub as a **separate OORT container** using the same ``my-symfony-app`` image and **Freddie** — a PHP Mercure hub that fits the OORT stack without an external Caddy image.
-
-
-Installation
-^^^^^^^^^^^^
-
-.. code-block:: bash
-
-   composer require symfony/mercure-bundle freddie/mercure-x
-
-Configure the Mercure bundle in ``config/packages/mercure.yaml``:
-
-.. code-block:: yaml
-
-   mercure:
-       hubs:
-           default:
-               url: '%env(MERCURE_URL)%'
-               public_url: '%env(MERCURE_PUBLIC_URL)%'
-               jwt:
-                   secret: '%env(MERCURE_JWT_SECRET)%'
-                   publish: ['*']
-
-
-Configuration
-^^^^^^^^^^^^^
-
-**Symfony application**
-
-.. code-block:: text
-
-   APP_ENV=prod
-   APP_SECRET=change-me
-   DEFAULT_URI=http://localhost
-   MERCURE_URL=http://mercure:3000/.well-known/mercure
-   MERCURE_PUBLIC_URL=http://localhost:3000/.well-known/mercure
-   MERCURE_JWT_SECRET=!ChangeThisMercureHubJWTSecretKey!
-
-**Mercure hub** (OORT container running Freddie)
-
-Use the same ``JWT_SECRET_KEY`` value as ``MERCURE_JWT_SECRET``. For production, point Freddie at Redis so the hub can scale with multiple replicas:
-
-.. code-block:: text
-
-   X_LISTEN=0.0.0.0:3000
-   JWT_SECRET_KEY=!ChangeThisMercureHubJWTSecretKey!
-   TRANSPORT_DSN=redis://redis:6379
-
-Start the hub with ``php bin/console freddie:serve``. Freddie exposes ``/.well-known/mercure`` on the listen address above.
-
-**Health checks**
-
-Freddie does not ship the Caddy admin ``/mercure/health/*`` endpoints from the official Mercure hub. Probes should verify that the hub HTTP listener accepts connections on ``/.well-known/mercure``. A ``4xx`` response still indicates the process is running; only connection errors mean the hub is down.
-
-
-Deployment
-^^^^^^^^^^
-
-.. tab-set::
-
-   .. tab-item:: Docker Run
-
-      Start the Mercure hub and Symfony app:
-
-      .. code-block:: bash
-
-         docker run -d \
-           --name mercure \
-           -p 3000:3000 \
-           -e X_LISTEN=0.0.0.0:3000 \
-           -e JWT_SECRET_KEY='!ChangeThisMercureHubJWTSecretKey!' \
-           -e TRANSPORT_DSN=redis://redis:6379 \
-           --env-file .env \
-           --health-cmd "curl -fsS --max-time 3 http://127.0.0.1:3000/.well-known/mercure -o /dev/null || test $? -eq 22" \
-           --health-interval=10s \
-           --health-timeout=5s \
-           --health-retries=5 \
-           --health-start-period=30s \
-           my-symfony-app \
-           php bin/console freddie:serve
-
-         docker run -d \
-           --name symfony-app \
-           -p 80:80 \
-           --env-file .env \
-           my-symfony-app \
-           php public/index.php
-
-   .. tab-item:: Docker Compose
-
-      .. code-block:: yaml
-
-         services:
-           app:
-             image: my-symfony-app
-             ports:
-               - "80:80"
-             env_file: .env
-             command: php public/index.php
-             depends_on:
-               mercure:
-                 condition: service_healthy
-             restart: unless-stopped
-
-           mercure:
-             image: my-symfony-app
-             ports:
-               - "3000:3000"
-             env_file: .env
-             command: php bin/console freddie:serve
-             environment:
-               X_LISTEN: "0.0.0.0:3000"
-               JWT_SECRET_KEY: "!ChangeThisMercureHubJWTSecretKey!"
-               TRANSPORT_DSN: "redis://redis:6379"
-             depends_on:
-               redis:
-                 condition: service_started
-             healthcheck:
-               test: ["CMD-SHELL", "curl -fsS --max-time 3 http://127.0.0.1:3000/.well-known/mercure -o /dev/null || test $? -eq 22"]
-               timeout: 5s
-               retries: 5
-               start_period: 30s
-             restart: unless-stopped
-
-   .. tab-item:: Docker Swarm
-
-      .. code-block:: yaml
-
-         services:
-           app:
-             image: my-symfony-app
-             deploy:
-               replicas: 2
-               restart_policy:
-                 condition: on-failure
-             ports:
-               - target: 80
-                 published: 80
-                 protocol: tcp
-                 mode: host
-             env_file: .env
-             command: php public/index.php
-
-           mercure:
-             image: my-symfony-app
-             deploy:
-               replicas: 1
-               restart_policy:
-                 condition: on-failure
-             ports:
-               - target: 3000
-                 published: 3000
-                 protocol: tcp
-                 mode: host
-             env_file: .env
-             command: php bin/console freddie:serve
-             environment:
-               X_LISTEN: "0.0.0.0:3000"
-               JWT_SECRET_KEY: "!ChangeThisMercureHubJWTSecretKey!"
-               TRANSPORT_DSN: "redis://redis:6379"
-             healthcheck:
-               test: ["CMD-SHELL", "curl -fsS --max-time 3 http://127.0.0.1:3000/.well-known/mercure -o /dev/null || test $? -eq 22"]
-               timeout: 5s
-               retries: 5
-               start_period: 30s
-
-   .. tab-item:: Kubernetes
-
-      .. code-block:: yaml
-
-         apiVersion: apps/v1
-         kind: Deployment
-         metadata:
-           name: symfony-app
-         spec:
-           replicas: 2
-           selector:
-             matchLabels:
-               app: symfony-app
-           template:
-             metadata:
-               labels:
-                 app: symfony-app
-             spec:
-               containers:
-                 - name: app
-                   image: my-symfony-app
-                   ports:
-                     - containerPort: 80
-                   command: ["php", "public/index.php"]
-                   envFrom:
-                     - secretRef:
-                         name: symfony-env
-         ---
-         apiVersion: v1
-         kind: Service
-         metadata:
-           name: symfony-app
-         spec:
-           selector:
-             app: symfony-app
-           ports:
-             - port: 80
-               targetPort: 80
-         ---
-         apiVersion: apps/v1
-         kind: Deployment
-         metadata:
-           name: mercure
-         spec:
-           replicas: 1
-           selector:
-             matchLabels:
-               app: mercure
-           template:
-             metadata:
-               labels:
-                 app: mercure
-             spec:
-               containers:
-                 - name: mercure
-                   image: my-symfony-app
-                   ports:
-                     - containerPort: 3000
-                   command: ["php", "bin/console", "freddie:serve"]
-                   env:
-                     - name: X_LISTEN
-                       value: "0.0.0.0:3000"
-                     - name: JWT_SECRET_KEY
-                       value: "!ChangeThisMercureHubJWTSecretKey!"
-                     - name: TRANSPORT_DSN
-                       value: "redis://redis:6379"
-                   envFrom:
-                     - secretRef:
-                         name: symfony-env
-                   readinessProbe:
-                     exec:
-                       command:
-                         - sh
-                         - -c
-                         - curl -fsS --max-time 3 http://127.0.0.1:3000/.well-known/mercure -o /dev/null || test $? -eq 22
-                     initialDelaySeconds: 10
-                     periodSeconds: 10
-                   livenessProbe:
-                     exec:
-                       command:
-                         - sh
-                         - -c
-                         - curl -fsS --max-time 3 http://127.0.0.1:3000/.well-known/mercure -o /dev/null || test $? -eq 22
-                     initialDelaySeconds: 30
-                     periodSeconds: 30
-         ---
-         apiVersion: v1
-         kind: Service
-         metadata:
-           name: mercure
-         spec:
-           selector:
-             app: mercure
-           ports:
-             - port: 3000
-               targetPort: 3000
-
 
 Complete Symfony Stack
 ----------------------
 
-This example runs every Symfony service on OORT in a single stack: Swoole Runtime (HTTP), Messenger worker, Scheduler worker, Mercure hub, plus Redis and PostgreSQL.
+This example runs every Symfony service on OORT in a single stack: Swoole Runtime (HTTP), Messenger worker, Scheduler worker, plus Redis and PostgreSQL.
 
 
 Stack Overview
@@ -755,9 +483,6 @@ Stack Overview
    * - ``scheduler``
      - Scheduled task consumer
      -
-   * - ``mercure``
-     - Real-time event hub
-     - 3000
    * - ``redis``
      - Messenger transport, cache
      - 6379
@@ -777,15 +502,6 @@ Stack Overview
          docker run -d --name redis --network symfony-net redis:alpine
          docker run -d --name postgres --network symfony-net \
            -e POSTGRES_DB=symfony -e POSTGRES_PASSWORD=secret postgres:16-alpine
-
-         docker run -d --name mercure --network symfony-net -p 3000:3000 \
-           -e X_LISTEN=0.0.0.0:3000 \
-           -e JWT_SECRET_KEY='!ChangeThisMercureHubJWTSecretKey!' \
-           -e TRANSPORT_DSN=redis://redis:6379 \
-           --env-file .env \
-           --health-cmd "curl -fsS --max-time 3 http://127.0.0.1:3000/.well-known/mercure -o /dev/null || test $? -eq 22" \
-           --health-interval=10s --health-timeout=5s --health-retries=5 --health-start-period=30s \
-           my-symfony-app php bin/console freddie:serve
 
          docker run -d --name symfony-app --network symfony-net -p 80:80 --env-file .env \
            my-symfony-app php public/index.php
@@ -812,8 +528,6 @@ Stack Overview
                  condition: service_started
                postgres:
                  condition: service_started
-               mercure:
-                 condition: service_healthy
              healthcheck:
                test: ["CMD", "curl", "-f", "http://localhost/health"]
                interval: 30s
@@ -834,26 +548,6 @@ Stack Overview
              image: my-symfony-app
              env_file: .env
              command: php bin/console messenger:consume scheduler_default --time-limit=3600
-             restart: unless-stopped
-
-           mercure:
-             image: my-symfony-app
-             ports:
-               - "3000:3000"
-             env_file: .env
-             command: php bin/console freddie:serve
-             environment:
-               X_LISTEN: "0.0.0.0:3000"
-               JWT_SECRET_KEY: "!ChangeThisMercureHubJWTSecretKey!"
-               TRANSPORT_DSN: "redis://redis:6379"
-             depends_on:
-               redis:
-                 condition: service_started
-             healthcheck:
-               test: ["CMD-SHELL", "curl -fsS --max-time 3 http://127.0.0.1:3000/.well-known/mercure -o /dev/null || test $? -eq 22"]
-               timeout: 5s
-               retries: 5
-               start_period: 30s
              restart: unless-stopped
 
            redis:
@@ -915,29 +609,6 @@ Stack Overview
              env_file: .env
              command: php bin/console messenger:consume scheduler_default --time-limit=3600
 
-           mercure:
-             image: my-symfony-app
-             deploy:
-               replicas: 1
-               restart_policy:
-                 condition: on-failure
-             ports:
-               - target: 3000
-                 published: 3000
-                 protocol: tcp
-                 mode: host
-             env_file: .env
-             command: php bin/console freddie:serve
-             environment:
-               X_LISTEN: "0.0.0.0:3000"
-               JWT_SECRET_KEY: "!ChangeThisMercureHubJWTSecretKey!"
-               TRANSPORT_DSN: "redis://redis:6379"
-             healthcheck:
-               test: ["CMD-SHELL", "curl -fsS --max-time 3 http://127.0.0.1:3000/.well-known/mercure -o /dev/null || test $? -eq 22"]
-               timeout: 5s
-               retries: 5
-               start_period: 30s
-
            redis:
              image: redis:alpine
              deploy:
@@ -970,9 +641,6 @@ Stack Overview
            DATABASE_URL: "postgresql://symfony:secret@postgres:5432/symfony?serverVersion=16"
            MESSENGER_TRANSPORT_DSN: "redis://redis:6379/messages"
            REDIS_URL: "redis://redis:6379"
-           MERCURE_URL: "http://mercure:3000/.well-known/mercure"
-           MERCURE_PUBLIC_URL: "http://localhost:3000/.well-known/mercure"
-           MERCURE_JWT_SECRET: "!ChangeThisMercureHubJWTSecretKey!"
          ---
          apiVersion: apps/v1
          kind: Deployment
@@ -1075,64 +743,6 @@ Stack Overview
                    envFrom:
                      - secretRef:
                          name: symfony-env
-         ---
-         apiVersion: apps/v1
-         kind: Deployment
-         metadata:
-           name: mercure
-         spec:
-           replicas: 1
-           selector:
-             matchLabels:
-               app: mercure
-           template:
-             metadata:
-               labels:
-                 app: mercure
-             spec:
-               containers:
-                 - name: mercure
-                   image: my-symfony-app
-                   ports:
-                     - containerPort: 3000
-                   command: ["php", "bin/console", "freddie:serve"]
-                   env:
-                     - name: X_LISTEN
-                       value: "0.0.0.0:3000"
-                     - name: JWT_SECRET_KEY
-                       value: "!ChangeThisMercureHubJWTSecretKey!"
-                     - name: TRANSPORT_DSN
-                       value: "redis://redis:6379"
-                   envFrom:
-                     - secretRef:
-                         name: symfony-env
-                   readinessProbe:
-                     exec:
-                       command:
-                         - sh
-                         - -c
-                         - curl -fsS --max-time 3 http://127.0.0.1:3000/.well-known/mercure -o /dev/null || test $? -eq 22
-                     initialDelaySeconds: 10
-                     periodSeconds: 10
-                   livenessProbe:
-                     exec:
-                       command:
-                         - sh
-                         - -c
-                         - curl -fsS --max-time 3 http://127.0.0.1:3000/.well-known/mercure -o /dev/null || test $? -eq 22
-                     initialDelaySeconds: 30
-                     periodSeconds: 30
-         ---
-         apiVersion: v1
-         kind: Service
-         metadata:
-           name: mercure
-         spec:
-           selector:
-             app: mercure
-           ports:
-             - port: 3000
-               targetPort: 3000
          ---
          apiVersion: apps/v1
          kind: Deployment

@@ -3,7 +3,7 @@ Introduction
 
 Welcome to the **OORT** documentation.
 
-OORT is a lightweight Docker base image for modern PHP applications — Laravel Octane, Horizon, Reverb, Pulse, Symfony Runtime, Messenger, Scheduler, Mercure, and similar long-running workloads.
+OORT is a lightweight Docker base image for modern PHP applications — Laravel Octane, Horizon, Reverb, Pulse, Symfony Runtime, Messenger, Scheduler, and similar long-running workloads.
 
 The image is minimal, production-ready, and runs **one process per container**.
 
