@@ -15,7 +15,7 @@ Create a ``Dockerfile`` in your project root. Copy application code into the ima
 
    FROM thecaliskan/oort:{{ latest_version }}
 
-   WORKDIR /app
+   WORKDIR /var/www
 
    COPY --chown=oort:oort composer.json composer.lock ./
    RUN composer install --no-dev --no-scripts --no-autoloader
@@ -38,7 +38,7 @@ Create a ``Dockerfile`` in your project root. Copy application code into the ima
 
    FROM thecaliskan/oort:{{ latest_version }}
 
-   WORKDIR /app
+   WORKDIR /var/www
 
    COPY --chown=oort:oort composer.json composer.lock symfony.lock ./
    RUN composer install --no-dev --no-scripts --no-autoloader

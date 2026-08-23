@@ -67,12 +67,18 @@ The Swoole runtime reads settings from ``composer.json`` ``extra.runtime.swoole`
 
    APP_RUNTIME=Runtime\Swoole\Runtime
    APP_ENV=prod
+   APP_SECRET=change-me
+   DEFAULT_URI=http://localhost
+   SWOOLE_HOST=0.0.0.0
+   SWOOLE_PORT=80
 
 Starting ``public/index.php`` boots the Swoole server when the runtime is configured.
 
 The deployment examples below probe ``/health``. Add a lightweight route that returns HTTP 200 — Symfony does not register one by default:
 
 .. code-block:: php
+
+   namespace App\Controller;
 
    use Symfony\Component\HttpFoundation\Response;
    use Symfony\Component\Routing\Attribute\Route;
@@ -354,10 +360,12 @@ Define schedules as message classes with ``#[AsSchedule]`` or ``#[AsPeriodicTask
 
 .. code-block:: php
 
+   namespace App\Task;
+
    use Symfony\Component\Scheduler\Attribute\AsPeriodicTask;
 
    #[AsPeriodicTask(frequency: '1 hour')]
-   class CleanupOldRecords
+   final class CleanupOldRecords
    {
        public function __invoke(): void
        {
@@ -490,6 +498,9 @@ Configuration
 
 .. code-block:: text
 
+   APP_ENV=prod
+   APP_SECRET=change-me
+   DEFAULT_URI=http://localhost
    MERCURE_URL=http://mercure:3000/.well-known/mercure
    MERCURE_PUBLIC_URL=http://localhost:3000/.well-known/mercure
    MERCURE_JWT_SECRET=!ChangeThisMercureHubJWTSecretKey!

@@ -358,6 +358,7 @@ Configuration
    REVERB_HOST=reverb
    REVERB_PORT=8080
    REVERB_SCHEME=http
+   BROADCAST_CONNECTION=reverb
 
    VITE_REVERB_APP_KEY="${REVERB_APP_KEY}"
    VITE_REVERB_HOST="${REVERB_HOST}"
@@ -1062,6 +1063,11 @@ Stack Overview
            REDIS_HOST: redis
            REDIS_PORT: "6379"
            QUEUE_CONNECTION: redis
+           CACHE_STORE: redis
+           BROADCAST_CONNECTION: reverb
+           OCTANE_SERVER: swoole
+           PULSE_ENABLED: "true"
+           PULSE_STORAGE_DRIVER: redis
          ---
          apiVersion: apps/v1
          kind: Deployment
