@@ -1,16 +1,17 @@
 Container Registries
 ====================================
 
-Our Docker image for **OORT** is available on multiple container registries. You can easily pull the image from any of the following registries depending on your preference.
+**OORT** is published on several container registries. Use whichever fits your infrastructure; image content is the same across registries.
 
-Supported Container Registries
-------------------------------
+
+Supported Registries
+--------------------
 
 .. list-table::
    :header-rows: 1
 
    * - Registry
-     - Tag
+     - Repository
    * - **Docker Hub**
      - `thecaliskan/oort <https://hub.docker.com/r/thecaliskan/oort>`_
    * - **GitHub Container Registry**
@@ -20,5 +21,5 @@ Supported Container Registries
    * - **Quay.io**
      - `quay.io/thecaliskan/oort <https://quay.io/thecaliskan/oort>`_
 
-No matter which registry you prefer, you can always access the **OORT** image and begin using it in your PHP application projects.
+Pull with the registry prefix and PHP version you need, for example ``docker pull thecaliskan/oort:{{ latest_version }}``. See :doc:`versions` for all available versions.
 

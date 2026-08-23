@@ -1,13 +1,13 @@
 Usage
 ==========================
 
-This section covers building your application image, deployment conventions, and per-framework guides for Laravel and Symfony.
+This section covers building your application image, deployment conventions, and framework guides for Laravel and Symfony.
 
 
 Dockerfile
 ----------
 
-Create a ``Dockerfile`` in your project root. Copy application code into the image and install Composer dependencies at build time.
+Create a ``Dockerfile`` in your project root. Copy application code into the image and install Composer dependencies at build time. Pin the **OORT** PHP version in the ``FROM`` line (see :doc:`/versions`).
 
 **Laravel**
 
@@ -80,7 +80,7 @@ Typical external services:
 Framework Guides
 ----------------
 
-Each guide includes zero-to-production setup for every supported service, with deployment examples in four tabs: **Docker Run**, **Docker Compose**, **Docker Swarm**, and **Kubernetes**.
+Each guide includes zero-to-production setup for every supported service, with deployment examples in four tabs: **Docker Run**, **Docker Compose**, **Docker Swarm**, and **Kubernetes**. Each guide also lists CI-tested framework and OORT version pairs.
 
 .. grid:: 1 1 2 2
    :gutter: 3
@@ -89,13 +89,13 @@ Each guide includes zero-to-production setup for every supported service, with d
       :link: laravel
       :link-type: doc
 
-      Octane, Horizon, Reverb, Queue, Scheduler, Pulse, and a full stack example.
+      Supported versions, Octane, Horizon, Reverb, Queue, Scheduler, Pulse, and a full stack example.
 
    .. grid-item-card:: Symfony
       :link: symfony
       :link-type: doc
 
-      Runtime, Messenger, Scheduler, and a full stack example.
+      Supported versions, Runtime, Messenger, Scheduler, and a full stack example.
 
 
 .. toctree::

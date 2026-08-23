@@ -3,7 +3,7 @@ Symfony
 
 This guide covers running Symfony long-running services on OORT — from project setup to production deployment across ``docker run``, Docker Compose, Docker Swarm, and Kubernetes.
 
-Throughout this page, ``my-symfony-app`` refers to the image you built with the Dockerfile on the :doc:`usage` page.
+Throughout this page, ``my-symfony-app`` refers to the image you built with the Dockerfile on the :doc:`/usage/index` page.
 
 
 Prerequisites
@@ -11,12 +11,53 @@ Prerequisites
 
 Before deploying, ensure your Symfony project has:
 
-- PHP **{{ latest_version }}** compatibility (or your chosen OORT tag)
+- A supported Symfony and OORT version pair (see `Supported Versions`_ below)
+- PHP **{{ latest_version }}** compatibility (or your chosen OORT version)
 - **Redis** for Messenger transport and cache
 - A **database** for application data
 - Environment variables configured (``APP_ENV``, ``DATABASE_URL``, ``REDIS_URL``, etc.)
 
 Install Redis and database as separate containers or managed services.
+
+
+Supported Versions
+------------------
+
+.. _symfony-supported-versions:
+
+OORT images are tested in CI against the Symfony releases below on matching PHP versions. See :doc:`/versions` for image sizes and :doc:`/security` for support windows.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Symbol
+     - Meaning
+   * - ✅
+     - **Tested** — CI runs against this Symfony and stable OORT version pair
+   * - β
+     - **Pre-release** — tested in CI on an RC OORT image (not a stable PHP release)
+   * - —
+     - **Not tested** — omitted from CI (typically incompatible PHP requirement)
+
+Compatibility matrix
+^^^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+   :header-rows: 1
+   :stub-columns: 2
+
+   * - Symfony
+     - PHP
+{% for oort in compatibility_oort_versions %}
+     - OORT {{ oort }}
+{% endfor %}
+{% for row in symfony_compat %}
+   * - **{{ row.version }}**
+     - {{ row.php }}
+{% for oort in compatibility_oort_versions %}
+     - {% if oort not in row.oort_versions %}—{% elif oort in compatibility_prerelease_oort_versions %}β{% else %}✅{% endif %}
+{% endfor %}
+{% endfor %}
 
 
 Symfony Runtime

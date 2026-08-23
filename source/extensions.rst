@@ -1,11 +1,10 @@
 Extensions
 ==============
 
-This page provides a detailed list of all PHP extensions included in our Docker image.
-You can use this as a reference to understand the image’s capabilities and manage dependencies effectively.
+PHP extensions included in each **OORT** image, listed by version. Check here before deploying if your application depends on a specific extension.
 
 
-latest
+latest ({{ latest_version }})
 ---------------------------
 
 .. json-table::

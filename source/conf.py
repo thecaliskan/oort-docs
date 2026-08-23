@@ -92,6 +92,46 @@ html_context = {
         "8.3": "31 Dec 2027",
         "8.2": "31 Dec 2026",
     },
+  # CI matrix: framework version × OORT PHP image tag
+    'compatibility_oort_versions': [
+        "8.2",
+        "8.3",
+        "8.4",
+        "8.5",
+        "8.6-rc",
+    ],
+    'compatibility_prerelease_oort_versions': [
+        "8.6-rc",
+    ],
+    'laravel_compat': [
+        {
+            'version': '12',
+            'php': '^8.2',
+            'oort_versions': ['8.2', '8.3', '8.4', '8.5', '8.6-rc'],
+        },
+        {
+            'version': '13',
+            'php': '^8.3',
+            'oort_versions': ['8.3', '8.4', '8.5', '8.6-rc'],
+        },
+    ],
+    'symfony_compat': [
+        {
+            'version': '7.4',
+            'php': '^8.2',
+            'oort_versions': ['8.2', '8.3', '8.4', '8.5', '8.6-rc'],
+        },
+        {
+            'version': '8.0',
+            'php': '^8.4',
+            'oort_versions': ['8.4', '8.5', '8.6-rc'],
+        },
+        {
+            'version': '8.1',
+            'php': '^8.4',
+            'oort_versions': ['8.4', '8.5', '8.6-rc'],
+        },
+    ],
 }
 
 def rstjinja(app, docname, source):

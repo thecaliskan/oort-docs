@@ -1,10 +1,10 @@
 Packages
 ==============
 
-This page provides a detailed list of all packages included in our Docker image. You can use this as a reference to understand the image’s contents and manage dependencies effectively.
+OS packages bundled in each **OORT** image, grouped by PHP version and architecture. Use this page to audit dependencies or confirm what ships in a specific release.
 
 
-latest
+latest ({{ latest_version }})
 ---------------------------
 
 

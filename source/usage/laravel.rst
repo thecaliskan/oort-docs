@@ -3,7 +3,7 @@ Laravel
 
 This guide walks through running every major Laravel long-running service on OORT — from scratch setup to production deployment across ``docker run``, Docker Compose, Docker Swarm, and Kubernetes.
 
-Throughout this page, ``my-laravel-app`` refers to the image you built with the Dockerfile on the :doc:`usage` page.
+Throughout this page, ``my-laravel-app`` refers to the image you built with the Dockerfile on the :doc:`/usage/index` page.
 
 
 Prerequisites
@@ -11,12 +11,53 @@ Prerequisites
 
 Before deploying, ensure your Laravel project has:
 
-- PHP **{{ latest_version }}** compatibility (or your chosen OORT tag)
+- A supported Laravel and OORT version pair (see `Supported Versions`_ below)
+- PHP **{{ latest_version }}** compatibility (or your chosen OORT version)
 - **Redis** for queues, Horizon, Reverb, Pulse, and caching
 - A **database** (PostgreSQL or MySQL) for application data
 - Environment variables configured (``APP_KEY``, ``DB_*``, ``REDIS_*``, etc.)
 
 Install Redis and database as separate containers or managed services — OORT runs only your PHP process.
+
+
+Supported Versions
+------------------
+
+.. _laravel-supported-versions:
+
+OORT images are tested in CI against the Laravel releases below on matching PHP versions. See :doc:`/versions` for image sizes and :doc:`/security` for support windows.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Symbol
+     - Meaning
+   * - ✅
+     - **Tested** — CI runs against this Laravel and stable OORT version pair
+   * - β
+     - **Pre-release** — tested in CI on an RC OORT image (not a stable PHP release)
+   * - —
+     - **Not tested** — omitted from CI (typically incompatible PHP requirement)
+
+Compatibility matrix
+^^^^^^^^^^^^^^^^^^^^
+
+.. list-table::
+   :header-rows: 1
+   :stub-columns: 2
+
+   * - Laravel
+     - PHP
+{% for oort in compatibility_oort_versions %}
+     - OORT {{ oort }}
+{% endfor %}
+{% for row in laravel_compat %}
+   * - **{{ row.version }}**
+     - {{ row.php }}
+{% for oort in compatibility_oort_versions %}
+     - {% if oort not in row.oort_versions %}—{% elif oort in compatibility_prerelease_oort_versions %}β{% else %}✅{% endif %}
+{% endfor %}
+{% endfor %}
 
 
 Laravel Octane
@@ -47,7 +88,7 @@ Configuration
 
 The deployment examples below use ``curl`` against the ``/up`` endpoint. You must register this route in your application before health checks can succeed.
 
-**Laravel 11+** — enable the health route in ``bootstrap/app.php``:
+Enable the health route in ``bootstrap/app.php``:
 
 .. code-block:: php
 
@@ -58,14 +99,6 @@ The deployment examples below use ``curl`` against the ``/up`` endpoint. You mus
            health: '/up',
        )
        // ...
-
-**Laravel 10 and earlier** — add a route that returns HTTP 200:
-
-.. code-block:: php
-
-   use Illuminate\Support\Facades\Route;
-
-   Route::get('/up', fn () => response()->noContent());
 
 Without an active ``/up`` endpoint, probes will fail and orchestrators may restart the container.
 
@@ -602,7 +635,7 @@ Laravel Scheduler
 
 **What it does**
 
-The scheduler runs recurring Artisan commands — reports, cleanups, cache refreshes, and any ``Schedule::`` definitions in ``routes/console.php`` or ``app/Console/Kernel.php``.
+The scheduler runs recurring Artisan commands — reports, cleanups, cache refreshes, and any ``Schedule::`` definitions in ``routes/console.php``.
 
 **When to use it**
 
@@ -612,7 +645,7 @@ Run ``schedule:work`` as a long-lived process (recommended in containers) instea
 Installation
 ^^^^^^^^^^^^
 
-Scheduling is built into Laravel. Define tasks in ``routes/console.php`` (Laravel 11+) or ``app/Console/Kernel.php``:
+Scheduling is built into Laravel. Define tasks in ``routes/console.php``:
 
 .. code-block:: php
 
